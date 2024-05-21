@@ -86,20 +86,24 @@ const Admin = () => {
             xs: 1,
             md: 0,
           }}
-          pl={{
-            xs: 0,
-            md: 1,
-          }}
           item
           xs={12}
           md={6}
           className="flex items-center justify-center "
         >
-          <Box className="w-full h-full">
+          <Box bgcolor={colors.card} p={2} className="w-full h-full">
             <Settings />
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          pl={{
+            xs: 0,
+            md: 1,
+          }}
+        >
           <CustomGrid
             columns={columns}
             rows={candidates || []}

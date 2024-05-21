@@ -3,6 +3,7 @@ import db from "@/utils/db";
 import Candidate from "@/utils/models/Candidate";
 import { CandidateFetched } from "@/types";
 import User from "@/utils/models/User";
+import Position from "@/utils/models/Position";
 export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   await db();
@@ -46,10 +47,14 @@ export async function GET(request: NextRequest) {
     await db();
     User;
     //sort , the latest candidate will be on top, use created at
-    const candidates = await Candidate.find({}).populate("userId").sort({
-      createdAt: -1,
-    });
+    Position;
+    const candidates = await Candidate.find({})
+      .populate("userId position")
+      .sort({
+        createdAt: -1,
+      });
     ///userId to user
+    console.log(candidates, "candidates");
     const candidatesWithUser = candidates.map((candidate) => {
       return {
         ...candidate.toJSON(),

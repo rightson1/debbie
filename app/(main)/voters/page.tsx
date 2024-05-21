@@ -8,6 +8,7 @@ import CustomGrid from "@/components/utils/CustomGrid";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useGlobalTheme } from "@/utils/themeContext";
 import { useGetVoters } from "@/utils/hooks/useUser";
+import { Candidate, CandidateFetched } from "@/types";
 const Page = () => {
   const { data, isLoading } = useGetVoters();
   const { colors } = useGlobalTheme();

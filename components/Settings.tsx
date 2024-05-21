@@ -46,14 +46,7 @@ const Settings = () => {
     });
   };
   return (
-    <Box
-      m={1}
-      bgcolor={colors.surface}
-      p={1}
-      mb={20}
-      onSubmit={submit}
-      component={"form"}
-    >
+    <Box onSubmit={submit} component={"form"}>
       <div className="flex justify-between items-center">
         <Typography variant="h5">Settings</Typography>
       </div>

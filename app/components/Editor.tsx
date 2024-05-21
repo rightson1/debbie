@@ -20,7 +20,9 @@ export default function Editor({
   setText: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const { colors } = useGlobalTheme();
-
+  console.log({
+    initialText,
+  });
   const editor = useEditor({
     extensions: [
       StarterKit,

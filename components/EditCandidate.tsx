@@ -17,7 +17,6 @@ import {
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useGetVoters } from "@/utils/hooks/useUser";
-import { positions } from "@/constants";
 import Editor from "@/app/components/Editor";
 import { ImageField } from "@/components/utils/inputs";
 import toast from "react-hot-toast";
@@ -26,14 +25,14 @@ import {
   useGetCandidate,
   useUpdateCandidate,
 } from "@/utils/hooks/useCandidates";
-import { positionsType } from "@/types";
 import { useParams } from "next/navigation";
+import { useGetPositions } from "@/utils/hooks/usePosition";
 const EditCandidate = ({ id }: { id: string }) => {
   const { colors } = useGlobalTheme();
   const { data: voters, isLoading } = useGetVoters();
   const { mutateAsync: editCandidate, isPending } = useUpdateCandidate();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
+  const { data: positions } = useGetPositions();
   const { data: candidate } = useGetCandidate(id);
   const [editorValue, setEditorValue] = useState("");
 
@@ -54,21 +53,18 @@ const EditCandidate = ({ id }: { id: string }) => {
       setEditorValue(candidate.story || "");
     }
   }, [candidate]);
-  const votersData = useMemo(
-    () =>
-      voters?.map((voter) => ({ label: voter.displayName, value: voter._id })),
-    [voters]
-  );
+
   if (!candidate) return <div>Loading...</div>;
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let url = "";
+
     const update = async () => {
       const data = {
         userId: values.candidate,
         bio: values.bio,
-        position: values.position as positionsType,
+        position: values.position,
         photo: "",
         story: editorValue,
         _id: candidate._id,
@@ -119,7 +115,7 @@ const EditCandidate = ({ id }: { id: string }) => {
           />
         </FormControl>
         <FormControl fullWidth>
-          <FormLabel>Position</FormLabel>
+          <FormLabel>Positions</FormLabel>
           <Select
             label="PositionType"
             name="positionType"
@@ -129,8 +125,8 @@ const EditCandidate = ({ id }: { id: string }) => {
             onChange={(e) => setValues({ ...values, position: e.target.value })}
           >
             {positions?.map((position) => (
-              <MenuItem value={position} key={position}>
-                {position}
+              <MenuItem value={position._id} key={position._id}>
+                {position.name}
               </MenuItem>
             ))}
           </Select>

@@ -17,17 +17,17 @@ import {
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useGetVoters } from "@/utils/hooks/useUser";
-import { positions } from "@/constants";
-import Editor from "@/app/components/Editor";
 import { ImageField } from "@/components/utils/inputs";
 import toast from "react-hot-toast";
 import { useAddCandidate } from "@/utils/hooks/useCandidates";
-import { positionsType } from "@/types";
-const Console = () => {
+import { useGetPositions } from "@/utils/hooks/usePosition";
+
+const NewCandidate = () => {
   const { colors } = useGlobalTheme();
   const { data: voters, isLoading } = useGetVoters();
   const { mutateAsync: addCandidate, isPending } = useAddCandidate();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const { data: positions } = useGetPositions();
   const [values, setValues] = useState({
     candidate: "",
     bio: "",
@@ -51,7 +51,7 @@ const Console = () => {
       const data = {
         userId: values.candidate,
         bio: values.bio,
-        position: values.position as positionsType,
+        position: values.position,
         photo: "",
       };
       url = await uploadFile(selectedImage, `candidates/${values.candidate}`);
@@ -73,11 +73,12 @@ const Console = () => {
       mb={20}
       onSubmit={submit}
       component={"form"}
+      className="w-full"
     >
       <div className="flex justify-between items-center">
         <Typography variant="h5">Add Candidate</Typography>
       </div>
-      <Box mt={2} className="flex flex-col gap-5">
+      <Box mt={2} className="flex flex-col gap-5 w-full">
         <FormControl fullWidth>
           <FormLabel>Candidate</FormLabel>
           <Autocomplete
@@ -111,7 +112,7 @@ const Console = () => {
           />
         </FormControl>
         <FormControl fullWidth>
-          <FormLabel>Position</FormLabel>
+          <FormLabel>Positions</FormLabel>
           <Select
             label="PositionType"
             name="positionType"
@@ -121,8 +122,8 @@ const Console = () => {
             onChange={(e) => setValues({ ...values, position: e.target.value })}
           >
             {positions?.map((position) => (
-              <MenuItem value={position} key={position}>
-                {position}
+              <MenuItem value={position._id} key={position._id}>
+                {position.name}
               </MenuItem>
             ))}
           </Select>
@@ -154,4 +155,4 @@ const Console = () => {
   );
 };
 
-export default Console;
+export default NewCandidate;
