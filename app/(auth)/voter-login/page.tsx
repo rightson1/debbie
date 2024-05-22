@@ -41,7 +41,7 @@ const Login = () => {
   };
 
   return (
-    <Box className="flex justify-center items-center min-h-screen ">
+    <Box className="flex justify-center items-center min-h-screen p-4 ">
       <form
         onSubmit={submit}
         className="flex gap-5 flex-col items-start justify-center w-full max-w-[500px]"
@@ -62,16 +62,13 @@ const Login = () => {
             type="password"
           />
           {/* dont have account register (/new-voter) */}
-          <Typography
-            className="cursor-pointer space-x-2"
-            color="skyblue"
-            variant="body2"
-          >
+          <Typography className=" space-x-2" color="skyblue" variant="body2">
             Dont have an account?{" "}
             <Box
               component="button"
               type="button"
               onClick={() => router.push("/new-voter")}
+              className="underline"
             >
               Register
             </Box>
@@ -80,6 +77,7 @@ const Login = () => {
               component="button"
               type="button"
               onClick={() => router.push("/login")}
+              className="underline"
             >
               Login As Admin
             </Box>

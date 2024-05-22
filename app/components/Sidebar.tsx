@@ -27,6 +27,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useAuth } from "@/utils/AuthContext";
 import BallotIcon from "@mui/icons-material/Ballot";
+import DownloadIcon from "@mui/icons-material/Download";
 const drawerWidth = "220px";
 
 export default function Sidebar({
@@ -43,6 +44,53 @@ export default function Sidebar({
   const pathname = usePathname();
   const [active, setActive] = React.useState("/");
   const { user } = useAuth();
+  const [isInstallable, setIsInstallable] = React.useState<boolean>(false);
+  const [deferredPrompt, setDeferredPrompt] = React.useState<any>(null);
+  const [isAppInstalled, setIsAppInstalled] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    const handleBeforeInstallPrompt = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setIsInstallable(true);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    // Check if the app is already installed
+    window.addEventListener("appinstalled", () => {
+      setIsAppInstalled(true);
+    });
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, []);
+
+  const handleClick = () => {
+    if (!deferredPrompt) {
+      return;
+    }
+
+    // Show the install prompt
+    deferredPrompt.prompt();
+
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult: any) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the install prompt");
+      } else {
+        console.log("User dismissed the install prompt");
+      }
+
+      // Clear the saved prompt since it can't be used again
+      setDeferredPrompt(null);
+      setIsInstallable(false);
+    });
+  };
 
   React.useEffect(() => {
     setOpen(false);
@@ -58,8 +106,8 @@ export default function Sidebar({
               {
                 name: "Home",
                 icon: <HomeIcon />,
-                link: "/",
-                active: active === "/",
+                link: "/admin",
+                active: active === "/admin",
               },
             ],
           },
@@ -70,22 +118,22 @@ export default function Sidebar({
                 name: "Voters",
                 icon: <PeopleIcon />,
                 info: `11`,
-                link: "/voters",
-                active: active === "/voters",
+                link: "/admin/voters",
+                active: active === "/admin/voters",
               },
               {
                 name: "Candidates",
                 icon: <CelebrationIcon />,
                 info: `44`,
-                link: "/candidates",
-                active: active === "/candidates",
+                link: "/admin/candidates",
+                active: active === "/admin/candidates",
               },
               {
                 name: "Positions",
                 icon: <BallotIcon />,
                 info: `44`,
-                link: "/positions",
-                active: active === "/positions",
+                link: "/admin/positions",
+                active: active === "/admin/positions",
               },
             ],
           },
@@ -96,8 +144,8 @@ export default function Sidebar({
                 name: "Results",
                 icon: <CelebrationIcon />,
                 info: `44`,
-                link: "/results",
-                active: active === "/results",
+                link: "/admin/results",
+                active: active === "/admin/results",
               },
             ],
           },
@@ -130,13 +178,6 @@ export default function Sidebar({
                 info: `44`,
                 link: "/voter/candidates",
                 active: active === "/voter/candidates",
-              },
-              {
-                name: "Notifications",
-                icon: <NotificationsIcon />,
-                info: `44`,
-                link: "/voter/notifications",
-                active: active === "/voter/notifications",
               },
             ],
           },
@@ -226,6 +267,28 @@ export default function Sidebar({
                   </MenuItem>
                 );
               })}
+              {isInstallable && (
+                <MenuItem
+                  className="cursor-pointer"
+                  // className="w-full fb px-4 py-1 cursor-pointer transition-all duration-300 ease-in-out"
+                  sx={{
+                    "&:hover": {
+                      bgcolor: `${colors.active} !important`,
+                    },
+                    backgroundColor: `${colors.surface} !important`,
+                    display: "flex !important",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    px: 2,
+                    py: 1,
+                    width: "100%",
+                  }}
+                >
+                  <Button disableRipple startIcon={<DownloadIcon />}>
+                    Download App
+                  </Button>
+                </MenuItem>
+              )}
             </List>
             <Divider />
           </div>

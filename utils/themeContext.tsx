@@ -4,16 +4,11 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider as Theme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { TokenColors, childrenProps } from "@/types";
-import { Plus_Jakarta_Sans } from "next/font/google";
+
 import { NextAppDirEmotionCacheProvider } from "./EmotionCache";
 import { tokens } from "@/utils/tokens";
 const ThemeContext = createContext({});
-const plus_jakarta = Plus_Jakarta_Sans({
-  display: "swap",
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
-  subsets: ["latin"],
-});
-const fontFamily = plus_jakarta.style.fontFamily;
+
 export const ThemeProvider = ({ children }: childrenProps) => {
   const colors = tokens();
   const themeConfig = () => {
@@ -48,45 +43,8 @@ export const ThemeProvider = ({ children }: childrenProps) => {
       },
 
       typography: {
-        fontFamily: [fontFamily].join(","),
         fontSize: 14,
         color: colors.white,
-        h1: {
-          fontFamily: fontFamily,
-        },
-        h2: {
-          fontFamily: fontFamily,
-        },
-        h3: {
-          fontFamily: fontFamily,
-        },
-        h4: {
-          fontFamily: fontFamily,
-        },
-        h5: {
-          fontFamily: fontFamily,
-        },
-        h6: {
-          fontFamily: fontFamily,
-        },
-        subtitle1: {
-          fontFamily: fontFamily,
-        },
-        subtitle2: {
-          fontFamily: fontFamily,
-        },
-        body1: {
-          fontFamily: fontFamily,
-        },
-        body2: {
-          fontFamily: fontFamily,
-        },
-        button: {
-          fontFamily: fontFamily,
-        },
-        caption: {
-          fontFamily: fontFamily,
-        },
       },
     };
   };
@@ -94,33 +52,26 @@ export const ThemeProvider = ({ children }: childrenProps) => {
     ...themeConfig(),
     typography: {
       h6: {
-        fontFamily: fontFamily,
         fontWeight: 600,
         fontSize: 14,
       },
       h5: {
-        fontFamily: fontFamily,
         fontWeight: 700,
         fontSize: 16,
       },
       h4: {
-        fontFamily: fontFamily,
         fontWeight: 700,
         fontSize: 18,
       },
       h3: {
-        fontFamily: fontFamily,
         fontWeight: 600,
         fontSize: 21,
       },
       body2: {
-        fontFamily: fontFamily,
         fontWeight: 400,
         fontSize: 14,
       },
-      body1: {
-        fontFamily: fontFamily,
-      },
+      body1: {},
     },
 
     components: {
@@ -147,7 +98,7 @@ export const ThemeProvider = ({ children }: childrenProps) => {
           root: {
             color: colors.white,
             textTransform: "none",
-            fontFamily: fontFamily,
+
             // backgroundColor: colors.surface,
             // "&:hover":{
             //   backgroundColor: colors.surface,
@@ -245,7 +196,7 @@ export const ThemeProvider = ({ children }: childrenProps) => {
         styleOverrides: {
           root: {
             color: colors.text,
-            fontFamily: fontFamily,
+
             textTransform: "none",
             "&:hover": {
               color: colors.text,

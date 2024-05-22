@@ -24,14 +24,14 @@ const Login = () => {
       userFunction: signIn,
       successMessage: "Signed in successfully",
       errorMessage: "Something went wrong",
-      successFunc: () => (window.location.href = "/"),
+      successFunc: () => (window.location.href = "/admin"),
     });
   };
   const router = useRouter();
   return (
     <form
       onSubmit={submit}
-      className="flex flex-col justify-center items-center min-h-screen w-full p-4"
+      className="flex flex-col justify-center p-4 items-center min-h-screen w-full "
     >
       <Box className="w-full md:max-w-[800px]">
         <Typography color="GrayText" variant="h6">

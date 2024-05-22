@@ -65,13 +65,14 @@ export interface User {
 
 export interface Candidate {
   userId: string;
-  position: string;
+  position: string | IPositionFetched;
   photo: string;
   bio: string;
   story?: string;
 }
 export interface CandidateFetched extends Candidate, Fetched {
   user: UserFetched;
+  position: IPositionFetched;
 }
 export interface UserFetched extends User, Fetched {}
 export interface Notification {
@@ -87,7 +88,7 @@ export interface IPositionFetched extends IPosition, Fetched {}
 export interface NotificationFetched extends Notification, Fetched {}
 export interface Vote {
   voterId: string;
-  post: IPosition;
+  position: string;
   candidateId: string;
   candidateUserId: string;
 }

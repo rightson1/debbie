@@ -5,8 +5,6 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -94,7 +92,7 @@ const Candidates = () => {
                   item.user.displayName
                     .toLowerCase()
                     .includes(e.target.value.toLowerCase()) ||
-                  item.position
+                  item.position.name
                     .toLowerCase()
                     .includes(e.target.value.toLowerCase())
               );
@@ -164,7 +162,7 @@ const Candidates = () => {
                     </IconButton>
                   }
                   title={candidate.user?.displayName}
-                  subheader={candidate.position}
+                  subheader={candidate.position.name}
                 />
                 <CardMedia
                   component="img"
@@ -211,7 +209,7 @@ const Candidates = () => {
                       src={candidate?.photo}
                     />
                     <Chip
-                      label={candidate?.position}
+                      label={candidate?.position.name}
                       color="secondary"
                       size="small"
                     />

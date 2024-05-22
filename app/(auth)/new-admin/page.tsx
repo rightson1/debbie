@@ -40,7 +40,7 @@ const Login = () => {
       userFunction: signIn,
       successMessage: "Signed in successfully",
       errorMessage: "Something went wrong",
-      successFunc: () => (window.location.href = "/"),
+      successFunc: () => (window.location.href = "/admin"),
     });
   };
   return (

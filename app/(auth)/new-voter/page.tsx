@@ -60,7 +60,7 @@ const Login = () => {
     });
   };
   return (
-    <Box className="flex justify-center items-center min-h-screen">
+    <Box className="flex justify-center items-center min-h-screen p-4">
       <form
         onSubmit={submit}
         className="flex gap-5 flex-col items-start justify-center w-full max-w-[500px]"

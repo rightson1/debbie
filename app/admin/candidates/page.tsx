@@ -84,13 +84,13 @@ const CandidatesPage = () => {
       },
     },
     {
-      field: "Joined",
+      field: "createdAt",
       headerName: "Joined",
       width: 200,
       valueGetter: (params) => format(params.row.createdAt),
     },
     {
-      field: "actions",
+      field: "createdAt",
       headerName: "Actions",
       width: 200,
       renderCell: (params) => (
@@ -164,7 +164,8 @@ const CandidatesPage = () => {
   );
 };
 
-export const EditModal = ({
+export default CandidatesPage;
+const EditModal = ({
   candidate,
   setCandidate,
 }: {
@@ -186,5 +187,3 @@ export const EditModal = ({
     </Dialog>
   );
 };
-
-export default CandidatesPage;

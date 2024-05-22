@@ -4,16 +4,11 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useGlobalTheme } from "@/utils/themeContext";
-import Button from "@mui/material/Button";
-import CheckIcon from "@mui/icons-material/Check";
 import UserStat from "@/components/homepage/UserStat";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import CustomGrid from "@/components/utils/CustomGrid";
-import { pieData, sampleCandidates } from "@/constants";
-import CustomPie from "@/components/utils/CustomPie";
 import { useAuth } from "@/utils/AuthContext";
 import { useGetCandidates } from "@/utils/hooks/useCandidates";
-import { useRouter } from "next/navigation";
 import Settings from "../Settings";
 import Results from "../utils/Results";
 

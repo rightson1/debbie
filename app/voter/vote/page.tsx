@@ -10,77 +10,48 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import { customToast } from "@/components/helpers/functions";
-
 import toast from "react-hot-toast";
 import { useAddCandidate, useGetCandidates } from "@/utils/hooks/useCandidates";
-import { Vote, positionsType } from "@/types";
+import { IPositionFetched, Vote } from "@/types";
 import { useAuth } from "@/utils/AuthContext";
 import { useAddVote, useVoted } from "@/utils/hooks/useVotes";
 import { useGetSettings } from "@/utils/hooks/useSettings";
-const Console = () => {
+import { useGetPositions } from "@/utils/hooks/usePosition";
+import InputLabel from "@mui/material/InputLabel";
+
+const VotePage = () => {
   const { colors } = useGlobalTheme();
   const { data: candidates, isLoading } = useGetCandidates();
   const { mutateAsync: addVote, isPending } = useAddVote();
   const { user } = useAuth();
   const { data: voted, isLoading: loading } = useVoted(user._id);
   const { data: settings } = useGetSettings();
-
-  const missRiaraCandidates =
-    useMemo(
-      () => candidates?.filter((voter) => voter.position === "Miss Riara"),
-      [candidates]
-    ) || [];
-  const mrRiaraCandidates =
-    useMemo(
-      () => candidates?.filter((voter) => voter.position === "Mr Riara"),
-      [candidates]
-    ) || [];
-  console.log(settings);
+  const { data: positions } = useGetPositions();
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const votes: Vote[] = [];
+    for (const [key, value] of formData.entries()) {
+      votes.push({
+        candidateId: value as string,
+        position: key,
+        voterId: user._id,
+        candidateUserId: value as string,
+      });
+    }
     if (settings?.electionStatus === "closed") {
       return toast.error("Voting is closed");
     }
     if (voted) return toast.error("You have already voted");
-
-    const missRiara = e.currentTarget.missRiara.value;
-    const mrRiara = e.currentTarget.mrRiara.value;
-
-    const missRiaraCandidateUserId = missRiaraCandidates.find(
-      (candidate) => candidate._id === missRiara
-    )?.user._id;
-
-    const mrRiaraCandidateUserId = mrRiaraCandidates.find(
-      (candidate) => candidate._id === mrRiara
-    )?.user._id;
-    if (missRiaraCandidateUserId && mrRiaraCandidateUserId) {
-      const missRiaraVote: Vote = {
-        candidateId: missRiara,
-        candidateUserId: missRiaraCandidateUserId,
-        post: "Miss Riara",
-        voterId: user?._id,
-      };
-      const mrRiaraVote: Vote = {
-        candidateId: mrRiara,
-        candidateUserId: mrRiaraCandidateUserId,
-        post: "Mr Riara",
-        voterId: user?._id,
-      };
-      const votes = [missRiaraVote, mrRiaraVote];
-      const update = async () => {
+    customToast({
+      userFunction: async () => {
         await addVote(votes);
-      };
-      customToast({
-        userFunction: update,
-        successMessage: "Voted successfully",
-        errorMessage: "Failed to add candidate",
-      });
-    } else {
-      toast.error("Please select a candidate");
-    }
+      },
+      successMessage: "Vote added successfully",
+    });
   };
   if (isLoading || loading) return <div>Loading...</div>;
-  console.log(voted);
+
   return (
     <Box
       m={1}
@@ -89,32 +60,37 @@ const Console = () => {
       mb={20}
       onSubmit={submit}
       component={"form"}
+      className="space-y-4"
     >
       <div className="flex justify-between items-center">
-        <Typography variant="h5">Add Candidate</Typography>
+        <Typography variant="h5">Vote</Typography>
       </div>
+      {positions?.map((position: IPositionFetched) => {
+        const canditatesInPosition = candidates?.filter(
+          (candidate) => candidate.position._id === position._id
+        );
+        return (
+          <FormControl fullWidth key={position._id}>
+            <FormLabel id={position._id}>{position.name}</FormLabel>
+            <Select
+              labelId={position._id}
+              id={position._id}
+              label={position.name}
+              name={position._id}
+              required
+            >
+              {canditatesInPosition?.map((candidate) => {
+                return (
+                  <MenuItem value={candidate._id} key={candidate._id}>
+                    {candidate.user.displayName}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        );
+      })}
       <Box mt={2} className="flex flex-col gap-5">
-        <FormControl fullWidth>
-          <FormLabel>Mr Riara</FormLabel>
-          <Select id="mrRiara" label="Candidate" name="mrRiara">
-            {mrRiaraCandidates.map((candidate) => (
-              <MenuItem value={candidate._id} key={candidate._id}>
-                {candidate.user.displayName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl fullWidth>
-          <FormLabel>Miss Riara</FormLabel>
-          <Select id="missRiara" label="Candidate" name="missRiara">
-            {missRiaraCandidates.map((candidate) => (
-              <MenuItem value={candidate._id} key={candidate._id}>
-                {candidate.user.displayName}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
         <div className="w-full flex justify-end">
           <Button
             variant="contained"
@@ -130,4 +106,4 @@ const Console = () => {
   );
 };
 
-export default Console;
+export default VotePage;

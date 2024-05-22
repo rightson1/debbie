@@ -47,7 +47,7 @@ const EditCandidate = ({ id }: { id: string }) => {
       setValues({
         candidate: candidate.user._id,
         bio: candidate.bio,
-        position: candidate.position,
+        position: candidate.position._id,
         story: candidate.story || "",
       });
       setEditorValue(candidate.story || "");
