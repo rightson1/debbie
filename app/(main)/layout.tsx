@@ -37,10 +37,7 @@ const Layout = ({ children }: childrenProps) => {
   if (!user) {
     return (
       <Box className="flex items-center justify-center w-screen h-screen">
-        <div className="loading-container">
-          <div className="loading"></div>
-          <div id="loading-text">loading</div>
-        </div>
+        <div className="loader"></div>
       </Box>
     );
   }

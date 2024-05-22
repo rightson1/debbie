@@ -30,10 +30,10 @@ export const useVoted = (id: string) => {
 //getVotes
 export const useGetVotes = (position?: string) => {
   return useQuery({
-    queryKey: ["votes"],
+    queryKey: ["votes", position],
     refetchOnMount: true,
     staleTime: 10,
-    enabled: !!position,
+    enabled: position && position?.length > 2 ? true : false,
     queryFn: (): Promise<VoteFetched[]> =>
       axios
         .get("/api/votes", {

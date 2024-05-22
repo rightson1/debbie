@@ -65,10 +65,10 @@ export async function GET(request: NextRequest) {
       //project, i want to have, candidate name, candidate position, candidate votes and candidate id
       {
         $project: {
-          candidateName: "$candidateUser.displayName",
-          candidatePosition: "$position.name",
-          candidateVotes: "$count",
-          candidateId: "$_id",
+          label: "$candidateUser.displayName",
+          // candidatePosition: "$position.name",
+          value: "$count",
+          id: "$_id",
         },
       },
     ]);

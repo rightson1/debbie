@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 
@@ -17,12 +18,9 @@ export default function CustomPie({
           data: pieData,
         },
       ]}
-      width={400}
+      width={600}
       arcLabelMinAngle={true}
       height={350}
-      sx={{
-        ml: 8,
-      }}
     />
   );
 }
