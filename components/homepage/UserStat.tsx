@@ -1,10 +1,6 @@
-import CheckOutlined from "@mui/icons-material/CheckOutlined";
-
-import ShoppingBagOutlined from "@mui/icons-material/ShoppingBagOutlined";
-import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
-import React, { useEffect } from "react";
+import React from "react";
 import { useGlobalTheme } from "../../utils/themeContext";
 import Box from "@mui/material/Box";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";

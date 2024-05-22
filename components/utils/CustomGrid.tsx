@@ -20,7 +20,7 @@ export default function CustomGrid({
   const borderString = `1px solid ${colors.active} !important`;
   return (
     <Box
-      height="75vh"
+      height="87vh"
       width={"full"}
       sx={{
         bgcolor: colors.surface,

@@ -55,12 +55,10 @@ const Layout = ({ children }: childrenProps) => {
         sx={{
           mt: "70px",
           ml: screenWidth ? "220px" : 0,
-          mr: screenWidth ? "240px" : 0,
         }}
       >
         {children}
       </Box>
-      <Rightbar />
     </Box>
   );
 };

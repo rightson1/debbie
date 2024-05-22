@@ -15,6 +15,7 @@ import { useAuth } from "@/utils/AuthContext";
 import { useGetCandidates } from "@/utils/hooks/useCandidates";
 import { useRouter } from "next/navigation";
 import Settings from "../Settings";
+import Results from "../utils/Results";
 
 const Admin = () => {
   const { colors } = useGlobalTheme();
@@ -41,32 +42,16 @@ const Admin = () => {
       field: "position",
       headerName: "Position",
       width: 150,
+      renderCell: (params) => {
+        return (
+          <Box>
+            <Typography>{params.row.position.name}</Typography>
+          </Box>
+        );
+      },
     },
   ];
 
-  interface GroupedCandidate {
-    label: string;
-    value: number;
-    id: string;
-  }
-
-  const groupedCandidates: GroupedCandidate[] = candidates
-    ? candidates?.reduce((acc: GroupedCandidate[], candidate) => {
-        const { position, userId } = candidate;
-        // Find if there's already an entry for the position in the accumulator
-        const positionEntry = acc.find((entry) => entry.label === position);
-
-        if (positionEntry) {
-          // If entry exists, increment the count
-          positionEntry.value += 1;
-        } else {
-          // If entry doesn't exist, create a new entry
-          acc.push({ label: position, value: 1, id: userId });
-        }
-        return acc;
-      }, [] as GroupedCandidate[])
-    : [];
-  const router = useRouter();
   return (
     <Box p={1}>
       <Box
@@ -92,7 +77,7 @@ const Admin = () => {
           className="flex items-center justify-center "
         >
           <Box bgcolor={colors.card} p={2} className="w-full h-full">
-            <Settings />
+            {user.admin ? <Settings /> : <Results voter={true} />}
           </Box>
         </Grid>
         <Grid
