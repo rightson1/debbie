@@ -22,7 +22,7 @@ export async function PUT(request: NextRequest) {
       {
         _id: body._id,
       },
-      body,
+      body.name,
       { new: true }
     );
     return new NextResponse(JSON.stringify(updatedPosition), {

@@ -26,6 +26,7 @@ import { usePathname } from "next/navigation";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useAuth } from "@/utils/AuthContext";
+import BallotIcon from "@mui/icons-material/Ballot";
 const drawerWidth = "220px";
 
 export default function Sidebar({
@@ -79,6 +80,18 @@ export default function Sidebar({
                 link: "/candidates",
                 active: active === "/candidates",
               },
+              {
+                name: "Positions",
+                icon: <BallotIcon />,
+                info: `44`,
+                link: "/positions",
+                active: active === "/positions",
+              },
+            ],
+          },
+          {
+            name: "Forms and results",
+            links: [
               {
                 name: "Results",
                 icon: <CelebrationIcon />,

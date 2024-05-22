@@ -26,7 +26,7 @@ export const useAddPosition = () => {
 export const useUpdatePosition = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (position: IPosition): Promise<void> =>
+    mutationFn: (position: IPositionFetched): Promise<void> =>
       axios.put("/api/positions", position),
     onSettled: () => {
       invalidate(queryClient, "positions");
